@@ -9,3 +9,5 @@ E-Waste Facility Locator is a web-based platform designed to raise awareness abo
 # Tech Stack Used -
 HTML, CSS, JAVASCRIPT
 
+# Link
+https://pink-marne-51.tiiny.site/
