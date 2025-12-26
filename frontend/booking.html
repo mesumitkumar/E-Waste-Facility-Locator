@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book E-Waste Pickup</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>E-Waste Facility Locator</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="dashboard.html"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="#" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="booking-section">
+            <div class="booking-container">
+                <div class="booking-header">
+                    <h2><i class="fas fa-truck"></i> Schedule E-Waste Pickup</h2>
+                </div>
+
+                <form id="bookingForm" class="booking-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deviceType"><i class="fas fa-laptop"></i> Device Type *</label>
+                            <select id="deviceType" required>
+                                <option value="">Select Device Type</option>
+                                <option value="Smartphone">Smartphone</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="Desktop">Desktop Computer</option>
+                                <option value="Monitor">Monitor</option>
+                                <option value="Television">Television</option>
+                                <option value="Refrigerator">Refrigerator</option>
+                                <option value="Other">Other Electronics</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity"><i class="fas fa-boxes"></i> Quantity *</label>
+                            <input type="number" id="quantity" value="1" min="1" max="100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weight"><i class="fas fa-weight"></i> Estimated Weight (kg) *</label>
+                        <input type="number" id="weight" step="0.1" min="0.1" max="1000" required placeholder="e.g., 2.5">
+                        <small>Approximate weight in kilograms. 1kg = 30 reward points</small>
+                        <div class="points-preview" id="pointsPreview">
+                            <i class="fas fa-coins"></i> Estimated points: <span id="estimatedPoints">0</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pickupAddress">
+                            <i class="fas fa-map-marker-alt"></i> Pickup Address *
+                        </label>
+                    </div>
+
+                    
+                    <input type="text" id="flatNo" placeholder="Flat / House No" required />
+                    <input type="text" id="area" placeholder="Area / Street" required />
+                    <input type="text" id="city" placeholder="City" required />
+                    <input type="text" id="state" placeholder="State" required />
+                    <input type="text" id="pincode" placeholder="Pincode" required />
+
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupDate"><i class="fas fa-calendar"></i> Pickup Date *</label>
+                            <input type="date" id="pickupDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickupTimeSlot"><i class="fas fa-clock"></i> Time Slot *</label>
+                            <select id="pickupTimeSlot" required>
+                                <option value="">Select Time Slot</option>
+                                <option value="9AM-12PM">9 AM - 12 PM</option>
+                                <option value="12PM-3PM">12 PM - 3 PM</option>
+                                <option value="3PM-6PM">3 PM - 6 PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialInstructions"><i class="fas fa-sticky-note"></i> Special Instructions (Optional)</label>
+                        <textarea id="specialInstructions" rows="2" placeholder="Any specific instructions for pickup"></textarea>
+                    </div>
+
+                    <div class="booking-summary" id="bookingSummary">
+                        <h4><i class="fas fa-receipt"></i> Booking Summary</h4>
+                        <div class="summary-details">
+                            <p><strong>Device:</strong> <span id="summaryDevice">-</span></p>
+                            <p><strong>Weight:</strong> <span id="summaryWeight">0</span></p>
+                            <p><strong>Points Earned:</strong> <span id="summaryPoints" class="points-highlight">0</span></p>
+                            <p><strong>Pickup:</strong> <span id="summaryDate">-</span> | <span id="summaryTime">-</span></p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="booking-btn">
+                        <i class="fas fa-calendar-check"></i> Confirm Booking
+                    </button>
+
+                    <div id="bookingMessage" class="message"></div>
+                </form>
+
+                <div class="booking-info">
+                    <h4><i class="fas fa-info-circle"></i> How it works:</h4>
+                    <ol>
+                        <li>Fill in the pickup details</li>
+                        <li>Submit the booking request</li>
+                        <li>Get booking confirmation with reference number</li>
+                        <li>Our e-captain will collect on the scheduled date</li>
+                        <li>Reward points added instantly to your account</li>
+                    </ol>
+                    
+                    <div class="rewards-info">
+                        <h5><i class="fas fa-gift"></i> Rewards Information:</h5>
+                        <p>✅ 1 kg = 30 reward points</p>
+                        <p>✅ Points can be redeemed for cash or vouchers</p>
+                        <p>✅ Track your points in the dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <!-- Same footer as other pages -->
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="booking.js"></script>
+</body>
+</html>

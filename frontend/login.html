@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - E-Waste Locator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header>
+        <div class="header-container">
+            <h1>E-Waste Facility Locator</h1>
+            <nav>
+    <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+    </ul>
+</nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Login Section -->
+        <section class="auth-section">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2><i class="fas fa-sign-in-alt"></i> Login to Your Account</h2>
+                    <p>Access your dashboard, track pickups, and manage rewards</p>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="loginEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="loginEmail" name="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
+                        <div class="password-toggle">
+                            <i class="fas fa-eye" id="togglePassword"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-group">
+                            <input type="checkbox" id="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="auth-btn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+
+                    <div class="auth-divider">
+                        <span>or</span>
+                    </div>
+
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+                    </div>
+
+                    <div id="loginMessage" class="message"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <!-- Same footer as index.html -->
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>E-Waste Facility Locator</h3>
+                <p>Helping individuals dispose of e-waste responsibly.</p>
+            </div>
+            <!-- ... rest of footer ... -->
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 E-Waste Facility Locator. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+</body>
+</html>

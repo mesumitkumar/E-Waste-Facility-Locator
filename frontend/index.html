@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Waste Facility Locator</title>
+
+  <!-- Leaflet CSS (for map) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <!-- Our custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- Header Section -->
+  <!-- In header section -->
+<header>
+    <div class="header-container">
+        <h1>E-Waste Facility Locator</h1>
+        <nav>
+  <ul id="navLinks">
+    <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="#about"><i class="fas fa-info-circle"></i> About Us</a></li>
+    <li><a href="#how-it-works"><i class="fas fa-cogs"></i> How it works?</a></li>
+    <li><a href="#locations"><i class="fas fa-map-marker-alt"></i> Our Locations</a></li>
+    <li><a href="#partners"><i class="fas fa-handshake"></i> Our Partners</a></li>
+    <li><a href="#services"><i class="fas fa-concierge-bell"></i> Our Services</a></li>
+    <li><a href="#contact"><i class="fas fa-envelope"></i> Contact Us</a></li>
+
+    <!-- Login (only when logged OUT) -->
+    <li id="loginNav">
+      <a href="login.html">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+    </li>
+
+    <!-- Profile (only when logged IN) -->
+    <li id="profileNav" style="display: none;">
+      <a href="dashboard.html">
+        <i class="fas fa-user"></i> Profile
+      </a>
+    </li>
+
+    <!-- Logout (only when logged IN) -->
+    <li id="logoutNav" style="display: none;">
+      <a href="#" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+    </li>
+  </ul>
+</nav>
+
+
+    </div>
+</header>
+
+  <main id="home">
+    <!-- Hero Section -->
+    <section class="hero">
+  <div class="hero-content">
+    <h2>Responsible E-Waste Disposal Made Easy</h2>
+    <p>Find the nearest e-waste recycling facilities in your area.</p>
+    <form id="searchForm">
+      <input type="text" id="locationInput" placeholder="Enter your city or location" />
+      <button type="button" id="searchButton">
+        <i class="fas fa-search"></i> Search
+      </button>
+      <button type="button" id="findMe">
+        <i class="fas fa-location-crosshairs"></i> Use my location
+      </button>
+    </form>
+    
+    <!-- ADD THIS BUTTON HERE -->
+    <div style="margin-top: 20px; text-align: center;">
+      <button
+  id="bookPickupBtn"
+  class="auth-btn"
+  style="background: linear-gradient(135deg, #ff9800, #ff5722);"
+>
+  <i class="fas fa-truck"></i> Book E-Waste Pickup
+</button>
+
+      <p style="color: white; font-size: 0.9rem; margin-top: 8px;">
+        Login required to schedule pickup and earn rewards
+      </p>
+    </div>
+  </div>
+</section>
+
+    <!-- Map Section -->
+    <section id="locations" class="map-section">
+      <h2>Our E-Waste Collection Locations</h2>
+      <p class="map-subtitle">
+        Explore our trusted e-waste collection and recycling centres across India.
+      </p>
+      <div id="map"></div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+      <h2>Learn About E-Waste Recycling</h2>
+      <p>Watch this talk by Wilma Rodrigues on how to recycle e-waste responsibly.</p>
+      <button id="openVideoBtn" class="video-btn">
+        <i class="fas fa-play-circle"></i> Watch Video
+      </button>
+
+      <!-- Custom Modal for Video -->
+      <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+          <span class="video-modal-close">&times;</span>
+          <div class="video-wrapper">
+            <!-- Important: we will control this src in JS to stop video when closed -->
+            <iframe
+              id="recycleVideo"
+              width="854"
+              height="480"
+              src="https://www.youtube.com/embed/ApdkhWd7SfQ?enablejsapi=1"
+              title="How To Recycle E-Waste | Wilma Rodrigues"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="steps-section">
+      <h2>How It Works</h2>
+      <div class="steps-container">
+        <img
+          src="assets\how_works2.gif"
+          alt="CLEAN e-INDIA - Process"
+          title="CLEAN e-INDIA - Process"
+        />
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+      <h2>About Us</h2>
+      <div class="about-container">
+        <!-- Mission Card -->
+        <div class="about-card">
+          <div class="about-icon"><i class="fas fa-bullseye"></i></div>
+          <h3>Our Mission</h3>
+          <p>
+            To raise awareness about the harmful effects of improper
+            e-waste disposal and provide tools that help people make a
+            positive environmental impact.
+          </p>
+        </div>
+
+        <!-- Who We Are Card -->
+        <div class="about-card">
+          <div class="about-icon"><i class="fas fa-users"></i></div>
+          <h3>Who We Are</h3>
+          <p>
+            A team of environmental enthusiasts, technologists, and
+            sustainability advocates working together to drive change.
+          </p>
+        </div>
+
+        <!-- What We Do Card -->
+        <div class="about-card">
+          <div class="about-icon"><i class="fas fa-laptop"></i></div>
+          <h3>What We Do</h3>
+          <p>
+            We connect you with nearby e-waste collection and recycling
+            facilities through our interactive platform.
+          </p>
+        </div>
+
+        <!-- Why Choose Us Card -->
+        <div class="about-card">
+          <div class="about-icon"><i class="fas fa-check-circle"></i></div>
+          <h3>Why Choose Us</h3>
+          <ul>
+            <li>Committed to sustainability</li>
+            <li>Educational resources on e-waste</li>
+            <li>Reward system for responsible disposal</li>
+            <li>Simple and user-friendly interface</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners" class="partners-section">
+      <h2>Our Partners</h2>
+      <p class="partners-subtitle">
+        We collaborate with educational institutions, non governmental organisations, big corporations and certified recyclers
+        to build a greener future.
+      </p>
+      <div class="partners-logos">
+        <div class="partner-badge">NGO Partners</div>
+        <div class="partner-badge">E-Waste Recyclers</div>
+        <div class="partner-badge">Schools & Colleges</div>
+        <div class="partner-badge">Corporate Programs</div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+      <h2>Our Services</h2>
+      <div class="services-container">
+        <!-- Row 1 -->
+        <div class="services-row">
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <h3>E-Waste Facility Locator</h3>
+            <p>
+              Find the nearest recycling facilities with address, contact
+              information, and accepted materials.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-book"></i></div>
+            <h3>Educational Resources</h3>
+            <p>
+              Learn about harmful components of e-waste and how to dispose of
+              them safely and responsibly.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-calculator"></i></div>
+            <h3>Device Estimation</h3>
+            <p>
+              Estimate recyclable materials in your devices and earn reward
+              credits for recycling.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-user-circle"></i></div>
+            <h3>User Profiles</h3>
+            <p>
+              Track your e-waste disposal history, earned credits, and
+              environmental impact.
+            </p>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="services-row">
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+            <h3>Impact Calculator</h3>
+            <p>
+              Visualize how your actions help reduce carbon footprint and
+              pollution.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-newspaper"></i></div>
+            <h3>News & Updates</h3>
+            <p>
+              Stay updated with the latest developments in e-waste management
+              and sustainability.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-star"></i></div>
+            <h3>Facility Reviews</h3>
+            <p>
+              Share your experiences and help others choose reliable collection
+              centres.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-handshake"></i></div>
+            <h3>Resource Access</h3>
+            <p>
+              Explore regulations, schemes, and eco-friendly initiatives related
+              to e-waste.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="services-footer">
+        <p>
+          Join us in creating a sustainable future through responsible
+          e-waste disposal.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <div class="contact-container">
+        <div class="contact-form">
+          <form id="contactForm">
+            <!-- Location Dropdown -->
+            <div class="form-group">
+              <label for="location">Location</label>
+              <select id="location" name="location" class="form-control">
+                <option value="">Please Select City</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Chennai">Chennai</option>
+              </select>
+            </div>
+
+            <!-- Name, Email, Message -->
+            <div class="form-group">
+              <label for="name">Name *</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+
+            <!-- Newsletter Checkbox -->
+            <div class="form-group checkbox-group">
+              <input
+                type="checkbox"
+                id="newsletter"
+                name="newsletter"
+                checked
+              />
+              <label for="newsletter">Subscribe to our newsletter</label>
+            </div>
+
+            <button type="submit" class="submit-btn">Send Message</button>
+
+
+            <p id="contactSuccessMsg" class="success-msg" style="display: none;">
+  Thank you! Your message has been sent successfully.
+</p>
+
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <!-- Column 1: About -->
+      <div class="footer-column">
+        <h3>E-Waste Facility Locator</h3>
+        <p>
+          Helping individuals and organizations dispose of electronic waste
+          responsibly by connecting them to verified e-waste collection and
+          recycling centres across India.
+        </p>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#locations">Our Locations</a></li>
+          <li><a href="#services">Our Services</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact -->
+      <div class="footer-column">
+        <h3>Contact</h3>
+        <ul class="footer-contact">
+          <li>
+            <i class="fas fa-envelope"></i>
+            <span>info@ewastefacilitylocator.com</span>
+          </li>
+          <li>
+            <i class="fas fa-phone"></i>
+            <span>+91-98765 43210</span>
+          </li>
+          <li>
+            <i class="fas fa-location-dot"></i>
+            <span>Kolkata, India</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Newsletter & Social -->
+      <div class="footer-column">
+        <h3>Stay Updated</h3>
+        <p>
+          Get updates on e-waste drives, awareness campaigns, and new collection
+          centres.
+        </p>
+        <form class="footer-newsletter">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            aria-label="Email for newsletter"
+          />
+          <button type="button">Subscribe</button>
+        </form>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+          <a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+          <a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 E-Waste Facility Locator. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Leaflet JS (for map) -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <!-- Our custom JS -->
+  <script src="index.js"></script>
+  <script src="auth.js"></script>
+  <!-- Add this at the end of body, before closing </body> tag -->
+
+</body>
+
+</html>
