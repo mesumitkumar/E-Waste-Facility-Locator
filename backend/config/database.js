@@ -1,32 +1,27 @@
-const mysql = require('mysql2/promise');  // Note: using mysql2/promise for promise support
-require('dotenv').config();
+const mysql = require('mysql2/promise');
 
-// Create a promise-based pool
 const pool = mysql.createPool({
-  host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
-  user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
-  password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
-  database: process.env.MYSQLDATABASE || process.env.DB_NAME || 'ewaste_db',
-  port: process.env.MYSQLPORT || process.env.DB_PORT || 3306,
+  host: process.env.MYSQLHOST,        // railway internal host
+  user: process.env.MYSQLUSER,        // railway internal user
+  password: process.env.MYSQLPASSWORD,// railway internal password
+  database: process.env.MYSQLDATABASE,// railway internal database
+  port: process.env.MYSQLPORT,        // railway internal port
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 });
 
-
-// Test connection using promises
-pool.getConnection()
-  .then((connection) => {
+async function testConnection() {
+  try {
+    const connection = await pool.getConnection();
     console.log('✅ Database connected successfully');
     connection.release();
-  })
-  .catch((err) => {
-    console.error('❌ Database connection failed:', err.message);
-    console.log('💡 Tips:');
-    console.log('   - Check if MySQL is running');
-    console.log('   - Check .env file credentials');
-    console.log('   - Run: mysql -u root -p -e "CREATE DATABASE ewaste_db;"');
-  });
+  } catch (err) {
+    console.error('❌ Database connection failed, retrying in 5s:', err.message);
+    setTimeout(testConnection, 5000);
+  }
+}
 
-// Export the promise-based pool
+testConnection();
+
 module.exports = pool;
