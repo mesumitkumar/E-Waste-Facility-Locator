@@ -6,6 +6,7 @@ console.log('MYSQLUSER:', process.env.MYSQLUSER);
 console.log('MYSQLPORT:', process.env.MYSQLPORT);
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('==============================');
+console.log('==============================');
 
 
 const express = require('express');
