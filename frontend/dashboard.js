@@ -1,3 +1,6 @@
+const API_BASE_URL = 'https://e-waste-facility-locator-production.up.railway.app/api';
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('auth_token');
   const user = JSON.parse(localStorage.getItem('user'));
@@ -17,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     document.getElementById('dashboardLoading').style.display = 'block';
 
-    const res = await fetch('http://localhost:5000/api/users/dashboard', {
+    const res = await fetch(`${API_BASE_URL}/users/dashboard`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -81,5 +84,5 @@ document.getElementById('logoutLink')?.addEventListener('click', (e) => {
   e.preventDefault();
   localStorage.removeItem('auth_token');
   localStorage.removeItem('user');
-  window.location.href = 'dashboard.html';
+  window.location.href = 'index.html';
 });

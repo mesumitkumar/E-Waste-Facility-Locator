@@ -1,6 +1,6 @@
 // Booking functionality
 document.addEventListener('DOMContentLoaded', function () {
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_BASE_URL = 'https://e-waste-facility-locator-production.up.railway.app/api';
 
   // Auth check
   const token = localStorage.getItem('auth_token');
