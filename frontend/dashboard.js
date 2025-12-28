@@ -2,38 +2,28 @@ const API_BASE_URL = 'https://e-waste-facility-locator-production.up.railway.app
 
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('auth_token');
-  const user = localStorage.getItem('user');
 
-  // 🔐 Hard protection
-  if (!token || !user) {
+  if (!token) {
     window.location.href = 'index.html';
     return;
   }
 
-  const userData = JSON.parse(user);
-
-  // Show dashboard
   document.getElementById('dashboardContent').style.display = 'block';
-
-  document.getElementById('userName').textContent =
-    userData.name || userData.email;
 
   try {
     document.getElementById('dashboardLoading').style.display = 'block';
 
     const res = await fetch(`${API_BASE_URL}/users/dashboard`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     });
 
-    if (!res.ok) {
-      throw new Error('Unauthorized');
-    }
+    if (res.status === 401) throw new Error('Unauthorized');
 
     const result = await res.json();
-
     const d = result.dashboard;
+
+    document.getElementById('userName').textContent =
+      d.user.name || d.user.email;
 
     document.getElementById('pointsBalance').textContent =
       d.stats.totalPoints;
@@ -51,44 +41,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   } catch (err) {
     console.error(err);
-    // token expired / invalid
-    localStorage.clear();
-    window.location.href = 'index.html';
+    if (err.message === 'Unauthorized') {
+      localStorage.clear();
+      window.location.href = 'index.html';
+    }
   } finally {
     document.getElementById('dashboardLoading').style.display = 'none';
   }
-});
-
-function renderRecentActivity(items) {
-  const list = document.querySelector('.activity-list');
-  list.innerHTML = '';
-
-  if (!items || items.length === 0) {
-    list.innerHTML = '<p>No recent activity</p>';
-    return;
-  }
-
-  items.forEach(item => {
-    list.innerHTML += `
-      <div class="activity-item">
-        <i class="fas fa-truck activity-icon pickup"></i>
-        <div class="activity-details">
-          <p><strong>Pickup ${item.status}</strong></p>
-          <p class="activity-time">
-            ${new Date(item.created_at).toLocaleString()}
-          </p>
-        </div>
-        <span class="activity-points">
-          +${item.points_earned} points
-        </span>
-      </div>
-    `;
-  });
-}
-
-// Logout
-document.getElementById('logoutLink')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  localStorage.clear();
-  window.location.href = 'index.html';
 });
