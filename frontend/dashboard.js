@@ -84,5 +84,5 @@ document.getElementById('logoutLink')?.addEventListener('click', (e) => {
   e.preventDefault();
   localStorage.removeItem('auth_token');
   localStorage.removeItem('user');
-  window.location.href = 'index.html';
+  window.location.href = 'dashboard.html';
 });
