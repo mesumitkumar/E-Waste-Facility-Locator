@@ -110,9 +110,9 @@ document.querySelectorAll('.logout-btn').forEach(btn => {
 /* =====================
    PROTECTED PAGES
 ===================== */
-if (location.pathname.includes('dashboard.html')) {
-    const auth = getAuth();
-    if (!auth.isLoggedIn) {
-        location.href = 'login.html';
-    }
-}
+// if (location.pathname.includes('dashboard.html')) {
+//     const auth = getAuth();
+//     if (!auth.isLoggedIn) {
+//         location.href = 'login.html';
+//     }
+// }
