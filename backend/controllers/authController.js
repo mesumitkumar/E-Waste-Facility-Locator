@@ -38,7 +38,7 @@ const authController = {
 
       // Get user data without password
       const [userRows] = await db.execute(
-        'SELECT id, name, email, phone, address, city, total_points, created_at FROM users WHERE id = ?',
+        'SELECT id, name, email, phone, city, total_points, created_at FROM users WHERE id = ?',
         [userId]
       );
 
@@ -115,7 +115,7 @@ const authController = {
       const userId = req.user.id;
 
       const [users] = await db.execute(
-        'SELECT id, name, email, phone, address, city, total_points, created_at FROM users WHERE id = ?',
+        'SELECT id, name, email, phone, city, total_points, created_at FROM users WHERE id = ?',
         [userId]
       );
 
