@@ -1,28 +1,25 @@
-const mysql = require('mysql2/promise');  // Note: using mysql2/promise for promise support
+const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-// Log current configuration
-console.log('MySQL Configuration:');
+// Log current configuration (for debugging)
+console.log('=== MySQL Configuration ===');
 console.log('- Host:', process.env.MYSQLHOST);
 console.log('- Database:', process.env.MYSQLDATABASE);
 console.log('- User:', process.env.MYSQLUSER);
 console.log('- Port:', process.env.MYSQLPORT);
 console.log('- Password:', process.env.MYSQLPASSWORD ? 'Set' : 'Not set');
+console.log('============================');
 
-// Create a promise-based pool WITH SSL FOR RAILWAY
+// Create a promise-based pool with SSL for Railway
 const pool = mysql.createPool({
-  host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
-  user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
-  password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
-  database: process.env.MYSQLDATABASE || process.env.DB_NAME || 'ewaste_db',
-  port: process.env.MYSQLPORT || process.env.DB_PORT || 3306,
-  
-  // ✅ CRITICAL: Add this SSL configuration for Railway
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT,
   ssl: {
     rejectUnauthorized: false
   },
-  
-  // ✅ Add these for better connection handling
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
@@ -31,30 +28,33 @@ const pool = mysql.createPool({
   keepAliveInitialDelay: 10000
 });
 
-// Test connection using promises
-pool.getConnection()
-  .then((connection) => {
-    console.log('✅ Database connected successfully');
+// Function to test the database connection with retry
+async function testConnection(retries = 5) {
+  try {
+    const connection = await pool.getConnection();
     
-    // Test a simple query
-    return connection.query('SELECT NOW() as current_time, DATABASE() as db_name')
-      .then(([rows]) => {
-        console.log('✅ Query test successful:', rows[0]);
-        connection.release();
-      });
-  })
-  .catch((err) => {
-    console.error('❌ Database connection failed:', err.message);
-    console.error('Error code:', err.code);
-    console.error('Full error:', err);
-    console.log('\n💡 Troubleshooting tips:');
-    console.log('1. Check if MYSQLPASSWORD is set correctly in Railway variables');
-    console.log('2. Check if MySQL service is running (green status)');
-    console.log('3. Try connecting from Railway terminal:');
-    console.log('   railway run mysql -h $MYSQLHOST -u $MYSQLUSER -p');
-    console.log('4. Verify database exists:');
-    console.log('   railway run mysql -h $MYSQLHOST -u $MYSQLUSER -p$MYSQLPASSWORD -e "SHOW DATABASES;"');
-  });
+    // Run a safe test query compatible with Railway
+    const [rows] = await connection.query(
+      'SELECT CURRENT_TIMESTAMP AS current_time, DATABASE() AS db_name;'
+    );
 
-// Export the promise-based pool
+    console.log('✅ Database connected successfully');
+    console.log('✅ Query test successful:', rows[0]);
+    connection.release();
+  } catch (err) {
+    console.error('❌ Database connection failed:', err.message);
+    if (retries > 0) {
+      console.log(`⏳ Retrying in 5 seconds... (${retries} retries left)`);
+      setTimeout(() => testConnection(retries - 1), 5000);
+    } else {
+      console.error('💥 Could not connect to database after multiple attempts.');
+      console.error('Full error:', err);
+    }
+  }
+}
+
+// Start the test on startup
+testConnection();
+
+// Export the pool for use in other modules
 module.exports = pool;
