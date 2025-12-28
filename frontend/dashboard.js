@@ -1,25 +1,25 @@
 const API_BASE_URL = 'https://e-waste-facility-locator-production.up.railway.app/api';
 
+// ✅ HARD GUARD
+if (!document.getElementById('dashboardContent')) {
+  throw new Error('dashboard.js loaded on non-dashboard page');
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('auth_token');
-  document.addEventListener('DOMContentLoaded', async () => {
-  const token = localStorage.getItem('auth_token');
+  const user = localStorage.getItem('user');
 
-  if (!token) {
+  if (!token || !user) {
     window.location.href = 'index.html';
     return;
   }
 
-  // show dashboard shell immediately
-  document.getElementById('dashboardContent').style.display = 'block';
+  const userData = JSON.parse(user);
 
-
-  // Show dashboard
   document.getElementById('dashboardContent').style.display = 'block';
 
   document.getElementById('userName').textContent =
-  d.user.name || d.user.email;
-
+    userData.name || userData.email;
 
   try {
     document.getElementById('dashboardLoading').style.display = 'block';
@@ -30,36 +30,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
 
-    if (!res.ok) {
-      throw new Error('Unauthorized');
-    }
+    if (!res.ok) throw new Error('Unauthorized');
 
     const result = await res.json();
-
     const d = result.dashboard;
 
-    document.getElementById('pointsBalance').textContent =
-      d.stats.totalPoints;
-
-    document.getElementById('pickupCount').textContent =
-      d.stats.totalBookings;
-
-    document.getElementById('carbonSaved').textContent =
-      d.user.carbonSaved;
-
-    document.getElementById('walletBalance').textContent =
-      `₹${d.stats.totalPoints}`;
+    document.getElementById('pointsBalance').textContent = d.stats.totalPoints;
+    document.getElementById('pickupCount').textContent = d.stats.totalBookings;
+    document.getElementById('carbonSaved').textContent = d.user.carbonSaved;
+    document.getElementById('walletBalance').textContent = `₹${d.stats.totalPoints}`;
 
     renderRecentActivity(d.recentActivity);
 
   } catch (err) {
-  console.error('Dashboard error:', err);
-
-  if (err.message === 'Unauthorized') {
+    console.error(err);
     localStorage.clear();
     window.location.href = 'index.html';
-  }
-
   } finally {
     document.getElementById('dashboardLoading').style.display = 'none';
   }
