@@ -1,10 +1,5 @@
 const API_BASE_URL = 'https://e-waste-facility-locator-production.up.railway.app/api';
 
-// ✅ HARD GUARD
-if (!document.getElementById('dashboardContent')) {
-  throw new Error('dashboard.js loaded on non-dashboard page');
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('auth_token');
   const user = localStorage.getItem('user');
@@ -17,7 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const userData = JSON.parse(user);
 
   document.getElementById('dashboardContent').style.display = 'block';
-
   document.getElementById('userName').textContent =
     userData.name || userData.email;
 
@@ -25,12 +19,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('dashboardLoading').style.display = 'block';
 
     const res = await fetch(`${API_BASE_URL}/users/dashboard`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: { Authorization: `Bearer ${token}` }
     });
-
-    if (!res.ok) throw new Error('Unauthorized');
 
     const result = await res.json();
     const d = result.dashboard;
@@ -38,14 +28,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('pointsBalance').textContent = d.stats.totalPoints;
     document.getElementById('pickupCount').textContent = d.stats.totalBookings;
     document.getElementById('carbonSaved').textContent = d.user.carbonSaved;
-    document.getElementById('walletBalance').textContent = `₹${d.stats.totalPoints}`;
+    document.getElementById('walletBalance').textContent =
+      `₹${d.stats.totalPoints}`;
 
     renderRecentActivity(d.recentActivity);
 
   } catch (err) {
-    console.error(err);
-    localStorage.clear();
-    window.location.href = 'index.html';
+    console.error('Dashboard error:', err);
   } finally {
     document.getElementById('dashboardLoading').style.display = 'none';
   }
@@ -66,13 +55,9 @@ function renderRecentActivity(items) {
         <i class="fas fa-truck activity-icon pickup"></i>
         <div class="activity-details">
           <p><strong>Pickup ${item.status}</strong></p>
-          <p class="activity-time">
-            ${new Date(item.created_at).toLocaleString()}
-          </p>
+          <p class="activity-time">${new Date(item.created_at).toLocaleString()}</p>
         </div>
-        <span class="activity-points">
-          +${item.points_earned} points
-        </span>
+        <span class="activity-points">+${item.points_earned} points</span>
       </div>
     `;
   });
