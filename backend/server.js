@@ -113,7 +113,32 @@ app.use('*', (req, res) => {
     message: 'Route not found'
   });
 });
-
+// Add this route to server.js - around line 20-30
+app.get('/api/mysql-test', async (req, res) => {
+  try {
+    const pool = require('./config/database.js');
+    const [rows] = await pool.query('SELECT NOW() as server_time, DATABASE() as db_name, VERSION() as mysql_version');
+    
+    res.json({
+      success: true,
+      message: 'MySQL is connected and working!',
+      data: rows[0],
+      connection: {
+        host: process.env.MYSQLHOST,
+        database: process.env.MYSQLDATABASE,
+        user: process.env.MYSQLUSER
+      }
+    });
+  } catch (error) {
+    console.error('MySQL test error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      errorCode: error.code,
+      hint: 'Add ssl: { rejectUnauthorized: false } to database.js connection'
+    });
+  }
+});
 /* =========================
    START SERVER
    ========================= */
