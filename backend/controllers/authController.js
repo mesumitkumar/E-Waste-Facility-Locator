@@ -23,7 +23,7 @@ const authController = {
 
       // Create user
       const [result] = await db.execute(
-        'INSERT INTO users (name, email, password_hash, phone, address, city, total_points) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        'INSERT INTO users (name, email, password_hash, phone, city, total_points) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [name, email, passwordHash, phone, city, 100]
       );
 
