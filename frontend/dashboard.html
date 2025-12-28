@@ -91,66 +91,7 @@
             </div>
         </section>
 
-        <!-- Auth Content (visible when NOT logged in) -->
-        <section id="authContent" class="auth-section compact">
-            <div class="auth-container compact">
-                <div class="auth-header">
-                    <h2><i class="fas fa-user-circle"></i> Account Access</h2>
-                    <p>Login to access your dashboard and rewards</p>
-                </div>
 
-                <!-- Login Form (default) -->
-                <form id="dashboardLoginForm" class="auth-form">
-                    <div class="form-group">
-                        <label for="dashboardEmail"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" id="dashboardEmail" required placeholder="Enter your email">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="dashboardPassword"><i class="fas fa-lock"></i> Password</label>
-                        <input type="password" id="dashboardPassword" required placeholder="Enter your password">
-                    </div>
-
-                    <button type="submit" class="auth-btn">
-                        <i class="fas fa-sign-in-alt"></i> Login to Dashboard
-                    </button>
-
-                    <div class="auth-toggle">
-                        <p>New user? <a href="#" id="showSignup">Create an account</a></p>
-                    </div>
-
-                    <div id="dashboardLoginMessage" class="message"></div>
-                </form>
-
-                <!-- Signup Form (hidden by default) -->
-                <form id="dashboardSignupForm" class="auth-form" style="display: none;">
-                    <div class="form-group">
-                        <label for="dashboardSignupName"><i class="fas fa-user"></i> Full Name</label>
-                        <input type="text" id="dashboardSignupName" required placeholder="Enter your name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="dashboardSignupEmail"><i class="fas fa-envelope"></i> Email</label>
-                        <input type="email" id="dashboardSignupEmail" required placeholder="Enter your email">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="dashboardSignupPassword"><i class="fas fa-lock"></i> Password</label>
-                        <input type="password" id="dashboardSignupPassword" required placeholder="Create password">
-                    </div>
-
-                    <button type="submit" class="auth-btn">
-                        <i class="fas fa-user-plus"></i> Create Account
-                    </button>
-
-                    <div class="auth-toggle">
-                        <p>Already have an account? <a href="#" id="showLogin">Login here</a></p>
-                    </div>
-
-                    <div id="dashboardSignupMessage" class="message"></div>
-                </form>
-            </div>
-        </section>
     </main>
 
     <footer class="site-footer">
