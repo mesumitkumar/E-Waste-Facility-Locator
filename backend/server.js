@@ -1,3 +1,13 @@
+// Add this at the top of your server.js
+console.log('=== ENVIRONMENT VARIABLES ===');
+console.log('MYSQLHOST:', process.env.MYSQLHOST);
+console.log('MYSQLDATABASE:', process.env.MYSQLDATABASE);
+console.log('MYSQLUSER:', process.env.MYSQLUSER);
+console.log('MYSQLPORT:', process.env.MYSQLPORT);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('==============================');
+
+
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
