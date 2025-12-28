@@ -1,9 +1,5 @@
 const API_BASE_URL = 'https://e-waste-facility-locator-production.up.railway.app/api';
 
-// auth.js should NEVER run on dashboard page
-if (window.location.pathname.includes('dashboard')) {
-  return;
-}
 
 /* =====================
    UTILITY FUNCTIONS
