@@ -1,5 +1,10 @@
 const API_BASE_URL = 'https://e-waste-facility-locator-production.up.railway.app/api';
 
+// auth.js should NEVER run on dashboard page
+if (window.location.pathname.includes('dashboard')) {
+  return;
+}
+
 /* =====================
    UTILITY FUNCTIONS
 ===================== */
@@ -110,9 +115,9 @@ document.querySelectorAll('.logout-btn').forEach(btn => {
 /* =====================
    PROTECTED PAGES
 ===================== */
-// if (location.pathname.includes('dashboard.html')) {
-//     const auth = getAuth();
-//     if (!auth.isLoggedIn) {
-//         location.href = 'login.html';
-//     }
-// }
+if (location.pathname.includes('dashboard.html')) {
+    const auth = getAuth();
+    if (!auth.isLoggedIn) {
+        location.href = 'login.html';
+    }
+}
