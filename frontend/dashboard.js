@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   const user = JSON.parse(localStorage.getItem('user'));
 
   if (!token || !user) {
-    document.getElementById('dashboardContent').style.display = 'none';
-    document.getElementById('authContent').style.display = 'block';
-    return;
-  }
+  // Not logged in → go to login page
+  window.location.href = 'index.html';
+  return;
+}
 
   document.getElementById('dashboardContent').style.display = 'block';
   document.getElementById('authContent').style.display = 'none';
@@ -84,5 +84,5 @@ document.getElementById('logoutLink')?.addEventListener('click', (e) => {
   e.preventDefault();
   localStorage.removeItem('auth_token');
   localStorage.removeItem('user');
-  window.location.href = 'dashboard.html';
+  window.location.href = 'index.html';
 });
