@@ -1,21 +1,22 @@
 const API_BASE_URL = 'https://e-waste-facility-locator-production.up.railway.app/api';
 
-
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('auth_token');
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = localStorage.getItem('user');
 
+  // 🔐 Hard protection
   if (!token || !user) {
-  // Not logged in → go to login page
-  window.location.href = 'index.html';
-  return;
-}
+    window.location.href = 'index.html';
+    return;
+  }
 
+  const userData = JSON.parse(user);
+
+  // Show dashboard
   document.getElementById('dashboardContent').style.display = 'block';
-  document.getElementById('authContent').style.display = 'none';
 
   document.getElementById('userName').textContent =
-    user.name || user.email;
+    userData.name || userData.email;
 
   try {
     document.getElementById('dashboardLoading').style.display = 'block';
@@ -26,27 +27,33 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
 
+    if (!res.ok) {
+      throw new Error('Unauthorized');
+    }
+
     const result = await res.json();
-    if (!result.success) return;
 
     const d = result.dashboard;
 
     document.getElementById('pointsBalance').textContent =
-  d.stats.totalPoints;
+      d.stats.totalPoints;
 
-document.getElementById('pickupCount').textContent =
-  d.stats.totalBookings;
+    document.getElementById('pickupCount').textContent =
+      d.stats.totalBookings;
 
-document.getElementById('carbonSaved').textContent =
-  d.user.carbonSaved;
+    document.getElementById('carbonSaved').textContent =
+      d.user.carbonSaved;
 
-document.getElementById('walletBalance').textContent =
-  `₹${d.stats.totalPoints}`;
-
+    document.getElementById('walletBalance').textContent =
+      `₹${d.stats.totalPoints}`;
 
     renderRecentActivity(d.recentActivity);
+
   } catch (err) {
-    console.error('Dashboard error:', err);
+    console.error(err);
+    // token expired / invalid
+    localStorage.clear();
+    window.location.href = 'index.html';
   } finally {
     document.getElementById('dashboardLoading').style.display = 'none';
   }
@@ -67,9 +74,8 @@ function renderRecentActivity(items) {
         <i class="fas fa-truck activity-icon pickup"></i>
         <div class="activity-details">
           <p><strong>Pickup ${item.status}</strong></p>
-
           <p class="activity-time">
-            ${new Date(item.created_at).toLocaleDateString()}
+            ${new Date(item.created_at).toLocaleString()}
           </p>
         </div>
         <span class="activity-points">
@@ -80,9 +86,9 @@ function renderRecentActivity(items) {
   });
 }
 
+// Logout
 document.getElementById('logoutLink')?.addEventListener('click', (e) => {
   e.preventDefault();
-  localStorage.removeItem('auth_token');
-  localStorage.removeItem('user');
+  localStorage.clear();
   window.location.href = 'index.html';
 });
