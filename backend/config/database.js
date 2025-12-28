@@ -23,23 +23,21 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  connectTimeout: 30000,  // 30 seconds timeout
+  connectTimeout: 30000,
   enableKeepAlive: true,
   keepAliveInitialDelay: 10000
 });
 
-// Function to test the database connection with retry
+// Function to test database connection with retry
 async function testConnection(retries = 5) {
   try {
     const connection = await pool.getConnection();
-    
-    // Run a safe test query compatible with Railway
-    const [rows] = await connection.query(
-      'SELECT CURRENT_TIMESTAMP AS current_time, DATABASE() AS db_name;'
-    );
 
+    // Safe test query compatible with all MySQL/MariaDB versions
+    const [rows] = await connection.query('SELECT 1 AS test;');
     console.log('✅ Database connected successfully');
-    console.log('✅ Query test successful:', rows[0]);
+    console.log('✅ Test query result:', rows[0]);
+
     connection.release();
   } catch (err) {
     console.error('❌ Database connection failed:', err.message);
@@ -53,7 +51,7 @@ async function testConnection(retries = 5) {
   }
 }
 
-// Start the test on startup
+// Start connection test on startup
 testConnection();
 
 // Export the pool for use in other modules
