@@ -1,13 +1,59 @@
-# E-Waste Facility Locator
+# ♻️ E-Waste Facility Locator
 
-Welcome to the E-Waste Facility Locator repository! This project aims to provide a convenient solution for responsibly disposing of electronic waste by helping users locate the nearest e-waste collection and recycling facilities.
+A full-stack web application that enables users to responsibly dispose of electronic waste by scheduling e-waste pickups, earning reward points, and tracking their environmental impact through an interactive dashboard.
 
-# About
+---
 
-E-Waste Facility Locator is a web-based platform designed to raise awareness about the harmful effects of improper e-waste disposal and promote environmental sustainability. By offering educational resources, facility location services, and incentive programs, our goal is to empower individuals and businesses to make informed decisions when it comes to e-waste disposal.
+## 🚀 Features
 
-# Tech Stack Used 
-HTML, CSS, JAVASCRIPT
+- 🔐 **User Authentication**
+  - Secure signup & login using JWT-based authentication
+  - Protected routes for user-specific data
+
+- 📦 **E-Waste Pickup Booking**
+  - Schedule pickups with device type, quantity, weight, and pickup address
+  - Automatic reward point calculation (1 kg = 30 points)
+
+- 📍 **Pickup Address Management**
+  - Structured address storage (flat, area, city, state, pincode)
+  - Combined pickup address shown in bookings
+
+- 📊 **User Dashboard**
+  - Total reward points earned
+  - Number of pickups completed
+  - CO₂ savings calculation
+  - Recent pickup activity
+
+- 🗺️ **Facility Locator**
+  - Interactive map to locate nearby e-waste collection centers
+
+- 🎁 **Rewards System**
+  - Points credited automatically after booking
+  - Reward transactions tracked in database
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- HTML5
+- CSS3
+- JavaScript (Vanilla JS)
+- Leaflet.js (Maps)
+
+### Backend
+- Node.js
+- Express.js
+- JWT Authentication
+
+### Database
+- MySQL
+- Relational schema with indexes for performance
+
 
 # Link
-https://pink-marne-51.tiiny.site/
+Old without backend - https://pink-marne-51.tiiny.site/
+New with backend - https://startling-buttercream-144dd0.netlify.app/
+
+
+
